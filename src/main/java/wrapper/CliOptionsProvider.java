@@ -5,7 +5,10 @@ import org.apache.commons.cli.*;
 public class CliOptionsProvider implements OptionsProvider{
     private Options options;
     private CommandLine cmd;
-    private int age;
+    private Double cg00050873;
+    private Double cg00212031;
+    private Double cg01707559;
+    private Double cg02839557;
     private String file;
     private Boolean hasFile;
 
@@ -38,18 +41,25 @@ public class CliOptionsProvider implements OptionsProvider{
     private void init(){
         this.options = new Options();
         options.addOption(new Option("a",
-                "age",
+                "cg00050873",
                 true,
-                "The number - a positive number below 120"));
+                "The ratio of Methylation for cg00050873 between 0 & 1"));
+        options.addOption(new Option("b",
+                "cg00212031",
+                true,
+                "The ratio of Methylation for cg00212031 between 0 & 1"));
+        options.addOption(new Option("c",
+                "cg01707559",
+                true,
+                "The ratio of Methylation for cg01707559 between 0 & 1"));
+        options.addOption(new Option("d",
+                "cg02839557",
+                true,
+                "The ratio of Methylation for cg02839559 between 0 & 1"));
         options.addOption(new Option("f",
                 "file",
                 true,
                 "The input file "));
-        options.addOption(new Option("g",
-                "gender",
-                true,
-                "gender either M or F"
-        ));
         options.addOption(new Option("h",
                 "help",
                 false,
@@ -67,14 +77,22 @@ public class CliOptionsProvider implements OptionsProvider{
             throw new ParseException("no number provided");
         } else {
             try {
-                final String numberStr = cmd.getOptionValue('a');
-                int age = Integer.parseInt(numberStr);
-                if (age < 0) {
-                    throw new ParseException("Number is below zero: " + age);
-                }else if(age > 120){
-                    throw new ParseException("Number is above 120: " + age);
+                final Double[] numbers = {Double.parseDouble(cmd.getOptionValue('a')),
+                        Double.parseDouble(cmd.getOptionValue('b')),
+                        Double.parseDouble(cmd.getOptionValue('c')),
+                        Double.parseDouble(cmd.getOptionValue('d'))};
+                for (Double cg : numbers) {
+                    if (cg < 0) {
+                        throw new ParseException("Number is below zero: " + cg);
+                    } else if (cg > 1) {
+                        throw new ParseException("Number is above one: " + cg);
+                    }
                 }
-                this.age = age;
+                this.cg00050873 = numbers[0];
+                this.cg00212031 = numbers[1];
+                this.cg01707559 = numbers[2];
+                this.cg02839557 = numbers[3];
+
             } catch (NumberFormatException nfe) {
                 throw new ParseException("Number cannot be parsed: "
                         + cmd.getOptionValue('a'));
@@ -84,8 +102,23 @@ public class CliOptionsProvider implements OptionsProvider{
     }
 
     @Override
-    public int getAge() {
-        return age;
+    public Double getCg00050873() {
+        return cg00050873;
+    }
+
+    @Override
+    public Double getCg00212031() {
+        return cg00212031;
+    }
+
+    @Override
+    public Double getCg01707559() {
+        return cg01707559;
+    }
+
+    @Override
+    public Double getCg02839557() {
+        return cg02839557;
     }
 
     @Override

@@ -14,6 +14,7 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     // https://mvnrepository.com/artifact/commons-cli/commons-cli
     implementation group: 'commons-cli', name: 'commons-cli', version: '1.5.0'
+    implementation group: 'nz.ac.waikato.cms.weka', name: 'weka-stable', version: '3.8.0'
 
 }
 
